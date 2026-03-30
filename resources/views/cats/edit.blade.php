@@ -29,14 +29,6 @@
                 @enderror
             </div>
 
-            <div class="form-control mb-4 d-flex flex-column">
-                <label for="slug">Slug</label>
-                <input type="text" name="slug" id="slug" value="{{ old('slug', $cat->slug) }}">
-                @error('slug')
-                    <div style="color:red;">{{ $message }}</div>
-                @enderror
-            </div>
-
             <div class="form-control mb-4 d-flex flex-wrap">
                 <label for="image" class="me-2">Immagine Gatto </label>
                 <input type="file" id="image" name="image">

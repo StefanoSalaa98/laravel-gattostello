@@ -37,13 +37,12 @@ class CatController extends Controller
 
         $newCat = new Cat();
         $newCat->name = $data['name'];
-        $newCat->slug = $data['slug'];
         $newCat->sex = $data['sex'];
         $newCat->date_of_birth = $data['date_of_birth'];
         $newCat->coat = $data['coat'];
         $newCat->info = $data['info'];
-        $newCat->adottato = $request->has('adottato');
-        $newCat->prenotato = $request->has('prenotato');
+        $newCat->adottato = (bool) $data['adottato'];
+        $newCat->prenotato = (bool) $data['prenotato'];
         if ($request->hasFile('image')) {
             $img_url = Storage::putFile("cats", $request->file("image"));
             $newCat->image = $img_url;
@@ -75,10 +74,9 @@ class CatController extends Controller
     public function update(UpdateCatRequest $request, Cat $cat)
     {
 
-        $data = $request->all();
+        $data = $request->validated();
 
         $cat->name = $data['name'];
-        $cat->slug = $data['slug'];
         $cat->sex = $data['sex'];
         $cat->date_of_birth = $data['date_of_birth'];
         $cat->coat = $data['coat'];

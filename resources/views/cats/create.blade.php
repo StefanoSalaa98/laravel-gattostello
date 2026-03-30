@@ -28,14 +28,6 @@
                 @enderror
             </div>
 
-            <div class="form-control mb-4 d-flex flex-column">
-                <label for="slug">Slug</label>
-                <input type="text" name="slug" id="slug" placeholder="es: cico" value="{{ old('slug') }}">
-                @error('slug')
-                    <div style="color:red;">{{ $message }}</div>
-                @enderror
-            </div>
-
             <div class="form-control mb-4 d-flex flex-wrap">
                 <label for="image" class="me-2">Immagine gatto </label>
                 <input type="file" id="image" name="image">
@@ -72,14 +64,17 @@
                 <label for="info">Riassunto</label>
                 <textarea name="info" id="info" rows="5">{{ old('info') }}</textarea>
             </div>
-
             <div class="form-control mb-4 d-flex flex-column">
-                <input type="checkbox" name="adottato" id="adottato" {{ old('adottato') ? 'checked' : ''}} />
-                <label for="adottato" class="form-check-label">Adottato</label>
+                <!-- valore nascosto di default per evitare problemi con la validazione -->
+                <input type="hidden" name="adottato" value="0">
+                <input type="checkbox" name="adottato" id="adottato" value="1" {{ old('adottato') ? 'checked' : '' }}>
+                <label for="adottato">Adottato</label>
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
-                <input type="checkbox" name="prenotato" id="prenotato" {{ old('prenotato') ? 'checked' : ''}} />
+                <!-- valore nascosto di default per evitare problemi con la validazione -->
+                <input type="hidden" name="prenotato" value="0">
+                <input type="checkbox" name="prenotato" id="prenotato" value="1" {{ old('prenotato') ? 'checked' : ''}} />
                 <label for="prenotato" class="form-check-label">Prenotato</label>
             </div>
 
