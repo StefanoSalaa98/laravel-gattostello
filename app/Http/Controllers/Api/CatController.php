@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 
 class CatController extends Controller
 {
+
     public function index(Request $request)
     {
+        $page = (int) ($request->page ?? 1);
 
-        $cats = Cat::query()
+        $limit = 12;
+        $offset = ($page - 1) * $limit;
+
+        // preparazione query in base ai criteri passati dal frontend
+        $query = Cat::query()
             ->when(
                 $request->has('adottato'),
                 fn($q) => $q->where('adottato', $request->adottato)
@@ -19,14 +25,26 @@ class CatController extends Controller
             ->when(
                 $request->has('prenotato'),
                 fn($q) => $q->where('prenotato', $request->prenotato)
-            )
+            );
+
+        // totale gatti presenti
+        $totalCats = $query->count();
+
+        // totale pagine
+        $totalPages = ceil($totalCats / $limit);
+
+        // query finale
+        $cats = $query
+            ->limit($limit)
+            ->offset($offset)
             ->get();
 
-        return response()->json(
-            [
-                "success" => true,
-                "data" => $cats
-            ]
-        );
+        return response()->json([
+            "success" => true,
+            "current_page" => $page,
+            "total_pages" => $totalPages,
+            "total_cats" => $totalCats,
+            "data" => $cats
+        ]);
     }
 }
