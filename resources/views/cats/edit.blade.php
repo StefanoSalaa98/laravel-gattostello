@@ -8,22 +8,41 @@
 
     <div class="container">
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <form action="{{ route('cats.update', $cat) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-control mb-4 d-flex flex-column">
                 <label for="name">Nome</label>
-                <input type="text" name="name" id="name" value="{{ $cat->name }}" required>
+                <input type="text" name="name" id="name" value="{{ old('name', $cat->name) }}">
+                @error('name')
+                    <div style="color:red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
                 <label for="slug">Slug</label>
-                <input type="text" name="slug" id="slug" value="{{ $cat->slug }}" required>
+                <input type="text" name="slug" id="slug" value="{{ old('slug', $cat->slug) }}">
+                @error('slug')
+                    <div style="color:red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-control mb-4 d-flex flex-wrap">
                 <label for="image" class="me-2">Immagine Gatto </label>
                 <input type="file" id="image" name="image">
+                @error('image')
+                    <div style="color:red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <div>
@@ -33,34 +52,44 @@
             <div class="form-control mb-4 d-flex flex-column">
                 <label for="sex">Sesso</label>
                 <select name="sex" id="sex">
-                    <option value="M">Maschio</option>
-                    <option value="F">Femmina</option>
+                    <option value="M" {{ old('sex', $cat->sex) == 'M' ? 'selected' : '' }}>Maschio</option>
+                    <option value="F" {{ old('sex', $cat->sex) == 'F' ? 'selected' : '' }}>Femmina</option>
                 </select>
+                @error('sex')
+                    <div style="color:red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
                 <label for="date_of_birth">Data nascita (YYYY-MM)</label>
-                <input type="text" name="date_of_birth" value="{{ $cat->date_of_birth }}" />
+                <input type="text" name="date_of_birth" value="{{ old('date_of_birth', $cat->date_of_birth) }}" />
+                @error('date_of_birth')
+                    <div style="color:red;">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-control mb-4 d-flex flex-wrap">
                 <label for="coat">Mantello</label>
-                <input type="text" name="coat" id="coat" value="{{ $cat->coat }}" />
+                <input type="text" name="coat" id="coat" value="{{ old('coat', $cat->coat) }}" />
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
                 <label for="info">Riassunto</label>
-                <textarea name="info" id="info" rows="5">{{ $cat->info }}</textarea>
+                <textarea name="info" id="info" rows="5">{{ old('info', $cat->info) }}</textarea>
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
-                <input type="checkbox" name="adottato" id="adottato" {{ $cat->adottato ? 'checked' : '' }} />
-                <label for="adottato" className="form-check-label">Adottato</label>
+                <!-- valore nascosto di default per evitare problemi con la validazione -->
+                <input type="hidden" name="adottato" value="0">
+                <input type="checkbox" name="adottato" id="adottato" value="1" {{ old('adottato', $cat->adottato) ? 'checked' : '' }} />
+                <label for="adottato" class="form-check-label">Adottato</label>
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
-                <input type="checkbox" name="prenotato" id="prenotato" {{ $cat->prenotato ? 'checked' : '' }} />
-                <label for="prenotato" className="form-check-label">Prenotato</label>
+                <!-- valore nascosto di default per evitare problemi con la validazione -->
+                <input type="hidden" name="prenotato" value="0">
+                <input type="checkbox" name="prenotato" id="prenotato" value="1" {{ old('prenotato', $cat->prenotato) ? 'checked' : '' }} />
+                <label for="prenotato" class="form-check-label">Prenotato</label>
             </div>
 
             <input type="submit" value="Salva">

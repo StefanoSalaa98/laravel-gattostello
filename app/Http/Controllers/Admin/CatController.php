@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCatRequest;
+use App\Http\Requests\UpdateCatRequest;
 use App\Models\Cat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -29,9 +31,9 @@ class CatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCatRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validated();
 
         $newCat = new Cat();
         $newCat->name = $data['name'];
@@ -42,8 +44,8 @@ class CatController extends Controller
         $newCat->info = $data['info'];
         $newCat->adottato = $request->has('adottato');
         $newCat->prenotato = $request->has('prenotato');
-        if (array_key_exists("image", $data)) {
-            $img_url = Storage::putFile("cats", $data["image"]);
+        if ($request->hasFile('image')) {
+            $img_url = Storage::putFile("cats", $request->file("image"));
             $newCat->image = $img_url;
         }
         $newCat->save();
@@ -70,8 +72,9 @@ class CatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cat $cat)
+    public function update(UpdateCatRequest $request, Cat $cat)
     {
+
         $data = $request->all();
 
         $cat->name = $data['name'];
@@ -80,9 +83,9 @@ class CatController extends Controller
         $cat->date_of_birth = $data['date_of_birth'];
         $cat->coat = $data['coat'];
         $cat->info = $data['info'];
-        $cat->adottato = $request->has('adottato');
-        $cat->prenotato = $request->has('prenotato');
-        if (array_key_exists("image", $data)) {
+        $cat->prenotato = (bool) $request->prenotato;
+        $cat->adottato = (bool) $request->adottato;
+        if ($request->hasFile('image')) {
             Storage::delete($cat->image);
             $img_url = Storage::putFile("cats", $data["image"]);
             $cat->image = $img_url;
