@@ -1,6 +1,12 @@
 @extends("layouts.master")
 
 <style>
+    .lista {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
     .aggiungi {
         margin: 30px auto;
     }
@@ -21,7 +27,7 @@
         <a class="btn btn-outline-primary aggiungi" href="{{ route("cats.create") }}">Aggiungi nuovo gatto</a>
     </div>
 
-    <div class="container">
+    <div class="container lista">
 
         @foreach ($cats as $cat)
             <x-card>
