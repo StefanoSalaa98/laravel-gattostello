@@ -4,9 +4,17 @@
     Inserisci nuovo gatto
 @endsection
 
+<style>
+    .indietro {
+        margin-bottom: 50px;
+    }
+</style>
+
 @section("contenuto")
 
     <div class="container">
+
+        <a class="btn btn-outline-secondary indietro" href="{{ route("cats.show", $cat->id) }}">Indietro</a>
 
         @if ($errors->any())
             <div class="alert alert-danger">
