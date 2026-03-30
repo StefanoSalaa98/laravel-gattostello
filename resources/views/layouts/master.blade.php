@@ -12,11 +12,11 @@
 </head>
 
 <style>
-    .container {
+    /* .container {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-    }
+    } */
 
     .card {
         display: inline-block;

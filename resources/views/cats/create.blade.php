@@ -4,19 +4,27 @@
     Inserisci nuovo gatto
 @endsection
 
+<style>
+    .indietro {
+        margin-bottom: 50px;
+    }
+</style>
+
 @section("contenuto")
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="container">
+
+        <a class="btn btn-outline-secondary indietro" href="{{ route("cats.index") }}">Indietro</a>
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
         <form action="{{ route('cats.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -56,26 +64,26 @@
             </div>
 
             <div class="form-control mb-4 d-flex flex-wrap">
-                <label for="coat">Mantello</label>
+                <label for="coat" class="me-2">Mantello</label>
                 <input type="text" name="coat" id="coat" value="{{ old('coat') }}" />
             </div>
 
             <div class="form-control mb-4 d-flex flex-column">
-                <label for="info">Riassunto</label>
+                <label for="info">Informazioni</label>
                 <textarea name="info" id="info" rows="5">{{ old('info') }}</textarea>
             </div>
-            <div class="form-control mb-4 d-flex flex-column">
+            <div class="form-control mb-4 d-flex">
                 <!-- valore nascosto di default per evitare problemi con la validazione -->
                 <input type="hidden" name="adottato" value="0">
                 <input type="checkbox" name="adottato" id="adottato" value="1" {{ old('adottato') ? 'checked' : '' }}>
-                <label for="adottato">Adottato</label>
+                <label class="ms-2" for="adottato">Adottato</label>
             </div>
 
-            <div class="form-control mb-4 d-flex flex-column">
+            <div class="form-control mb-4 d-flex">
                 <!-- valore nascosto di default per evitare problemi con la validazione -->
                 <input type="hidden" name="prenotato" value="0">
                 <input type="checkbox" name="prenotato" id="prenotato" value="1" {{ old('prenotato') ? 'checked' : ''}} />
-                <label for="prenotato" class="form-check-label">Prenotato</label>
+                <label class="ms-2" for="prenotato" class="form-check-label">Prenotato</label>
             </div>
 
             <input type="submit" value="Salva">
