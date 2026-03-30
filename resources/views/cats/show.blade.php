@@ -22,7 +22,8 @@
     }
 
     .bottoni {
-        padding-left: 140px;
+        width: 80%;
+        margin: 0 auto;
         margin-top: 50px;
     }
 </style>
