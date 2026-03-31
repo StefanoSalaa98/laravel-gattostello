@@ -53,4 +53,12 @@ class Cat extends Model
 
         return $slug;
     }
+
+    // cerca il gatto corrispondente o per id o per slug, a sceonda di cosa viene passato
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where('id', $value)
+            ->orWhere('slug', $value)
+            ->firstOrFail();
+    }
 }
