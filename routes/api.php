@@ -10,4 +10,8 @@ Route::get('/user', function (Request $request) {
 
 Route::get("cats", [CatController::class, "index"]);
 
+Route::get("cats/total-ex", [CatController::class, "total"]);
+
 Route::get("cats/{cat}", [CatController::class, "show"]);
+
+

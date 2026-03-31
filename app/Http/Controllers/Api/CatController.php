@@ -55,4 +55,17 @@ class CatController extends Controller
             "data" => $cat
         ]);
     }
+
+    // funzione che restituisce il totale dei gatti adottati
+    public function total()
+    {
+        // totale gatti adottati
+        $totalCats = Cat::where('adottato', 1)->count();
+
+        return response()->json([
+            "success" => true,
+            "data" => $totalCats
+        ]);
+    }
+
 }
