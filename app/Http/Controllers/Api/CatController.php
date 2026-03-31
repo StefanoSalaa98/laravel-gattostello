@@ -47,4 +47,12 @@ class CatController extends Controller
             "data" => $cats
         ]);
     }
+
+    public function show(Cat $cat)
+    {
+        return response()->json([
+            "success" => true,
+            "data" => $cat
+        ]);
+    }
 }
