@@ -14,9 +14,21 @@ class CatController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cats = Cat::all();
+        $cats = Cat::query()
+            // Eseguo la funzione solo se search è presente e non vuoto nella request”
+            ->when(
+                $request->filled('search'),
+                function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request->search . '%');
+                }
+            )
+            ->orderBy('name')
+            ->get();
+        // ->paginate(20)
+        // ->withQueryString();
+
         return view("cats.index", compact("cats"));
     }
 

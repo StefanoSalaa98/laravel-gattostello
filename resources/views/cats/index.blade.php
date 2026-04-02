@@ -19,6 +19,11 @@
             aspect-ratio: 1;
         }
     }
+
+    .ricerca {
+        text-align: center;
+        margin-bottom: 30px;
+    }
 </style>
 
 @section("contenuto")
@@ -26,6 +31,11 @@
     <div class="d-flex align-items-start py-3 gap-4">
         <a class="btn btn-outline-primary aggiungi" href="{{ route("cats.create") }}">Aggiungi nuovo gatto</a>
     </div>
+
+    <form class="ricerca" method="GET" action="{{ route('cats.index') }}">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cerca gatto...">
+        <button type="submit">Cerca</button>
+    </form>
 
     <div class="container lista">
 
