@@ -34,6 +34,24 @@
 
     <form class="ricerca" method="GET" action="{{ route('cats.index') }}">
         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cerca gatto...">
+        <select name="adottato">
+            <option value="">Tutti</option>
+            <option value="1" {{ request('adottato') == '1' ? 'selected' : '' }}>
+                Adottati
+            </option>
+            <option value="0" {{ request('adottato') == '0' ? 'selected' : '' }}>
+                Non adottati
+            </option>
+        </select>
+        <select name="prenotato">
+            <option value="">Tutti</option>
+            <option value="1" {{ request('prenotato') == '1' ? 'selected' : '' }}>
+                Prenotati
+            </option>
+            <option value="0" {{ request('prenotato') == '0' ? 'selected' : '' }}>
+                Non prenotati
+            </option>
+        </select>
         <button type="submit">Cerca</button>
     </form>
 

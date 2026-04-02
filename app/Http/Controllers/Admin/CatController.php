@@ -21,9 +21,17 @@ class CatController extends Controller
             ->when(
                 $request->filled('search'),
                 function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request->search . '%');
+                    $query->where('name', 'like', '%' . trim($request->search) . '%');
                 }
             )
+            // eseguo il controllo sul campo adottato se presente
+            ->when($request->filled('adottato'), function ($query) use ($request) {
+                $query->where('adottato', $request->adottato);
+            })
+            // eseguo il controllo sul campo prenotato se presente
+            ->when($request->filled('prenotato'), function ($query) use ($request) {
+                $query->where('prenotato', $request->prenotato);
+            })
             ->orderBy('name')
             ->get();
         // ->paginate(20)
