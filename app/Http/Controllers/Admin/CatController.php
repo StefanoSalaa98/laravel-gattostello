@@ -33,9 +33,8 @@ class CatController extends Controller
                 $query->where('prenotato', $request->prenotato);
             })
             ->orderBy('name')
-            ->get();
-        // ->paginate(20)
-        // ->withQueryString();
+            ->paginate(20)
+            ->withQueryString();
 
         return view("cats.index", compact("cats"));
     }

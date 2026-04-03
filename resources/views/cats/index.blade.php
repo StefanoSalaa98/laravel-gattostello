@@ -24,6 +24,12 @@
         text-align: center;
         margin-bottom: 30px;
     }
+
+    .pagine {
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
 </style>
 
 @section("contenuto")
@@ -69,6 +75,9 @@
             </x-card>
         @endforeach
 
+    </div>
+    <div class="pagine">
+        {{ $cats->links() }}
     </div>
 
 @endsection
