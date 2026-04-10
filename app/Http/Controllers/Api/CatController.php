@@ -35,6 +35,8 @@ class CatController extends Controller
 
         // query finale
         $cats = $query
+            // ordinati dal gatto inserito più di recente a quello più vecchio
+            ->orderBy('created_at', 'desc')
             ->limit($limit)
             ->offset($offset)
             ->get();
