@@ -23,4 +23,9 @@ Route::resource('cats', CatController::class)
     ->middleware(['auth', 'verified']);
 ;
 
+Route::get('/setup', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return 'Migrations eseguite';
+});
+
 require __DIR__ . '/auth.php';
