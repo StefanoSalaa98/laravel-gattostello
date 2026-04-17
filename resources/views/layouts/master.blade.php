@@ -7,17 +7,12 @@
     <title>@yield("titolo")</title>
 
     <!-- Includo gli assets compilati da Vite -->
-    @vite(['resources/sass/app.scss', "resources/js/app.js"])
+    <!-- @vite(['resources/sass/app.scss', "resources/js/app.js"]) -->
+    @vite(['resources/js/app.js'])
 
 </head>
 
 <style>
-    /* .container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    } */
-
     .card {
         display: inline-block;
         border: solid 1px grey;
