@@ -29,15 +29,4 @@ Route::get('/setup', function () {
     return 'Migrations eseguite';
 });
 
-Route::get('/create-admin', function () {
-
-    User::create([
-        'name' => 'Admin',
-        'email' => 'stefano@mail.it',
-        'password' => bcrypt('NonnoFilosh123')
-    ]);
-
-    return 'Admin creato';
-});
-
 require __DIR__ . '/auth.php';
