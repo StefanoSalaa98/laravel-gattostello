@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Admin\CatController;
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -26,6 +27,17 @@ Route::resource('cats', CatController::class)
 Route::get('/setup', function () {
     Artisan::call('migrate', ['--force' => true]);
     return 'Migrations eseguite';
+});
+
+Route::get('/create-admin', function () {
+
+    User::create([
+        'name' => 'Admin',
+        'email' => 'stefano@mail.it',
+        'password' => bcrypt('NonnoFilosh123')
+    ]);
+
+    return 'Admin creato';
 });
 
 require __DIR__ . '/auth.php';
