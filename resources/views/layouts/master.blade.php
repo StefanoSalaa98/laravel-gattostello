@@ -7,7 +7,7 @@
     <title>@yield("titolo")</title>
 
     <!-- Includo gli assets compilati da Vite -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 
 </head>
 
