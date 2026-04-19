@@ -1,4 +1,5 @@
 return [
 'allowed_origins' => [
-'https://gattostello.vercel.app/'
+'https://gattostello.vercel.app'
+],
 ];
