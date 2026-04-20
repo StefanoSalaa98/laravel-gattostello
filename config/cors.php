@@ -6,7 +6,8 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'https://gattostello.vercel.app'
+        '*'
+        // 'https://gattostello.vercel.app'
     ],
 
     'allowed_headers' => ['*'],
