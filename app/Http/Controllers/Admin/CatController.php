@@ -91,7 +91,12 @@ class CatController extends Controller
         }
         $newCat->save();
 
-        return redirect()->route("cats.show", $newCat);
+        // return redirect()->route("cats.show", $newCat);
+
+        return response()->json([
+            'all' => $request->all(),
+            'file' => $request->file('image')
+        ]);
     }
 
     /**
