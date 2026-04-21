@@ -105,8 +105,6 @@ class CatController extends Controller
     public function store(StoreCatRequest $request)
     {
 
-        dd(config('cloudinary.cloud_url'));
-
         $data = $request->validated();
 
         $newCat = new Cat();
