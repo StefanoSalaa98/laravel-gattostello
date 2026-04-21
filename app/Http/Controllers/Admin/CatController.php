@@ -63,8 +63,8 @@ class CatController extends Controller
         $newCat->info = $data['info'];
         // $newCat->adottato = (bool) $data['adottato'];
         // $newCat->prenotato = (bool) $data['prenotato'];
-        $newCat->adottato = $data['adottato'] ?? false;
-        $newCat->prenotato = $data['prenotato'] ?? false;
+        $newCat->adottato = $request->boolean('adottato');
+        $newCat->prenotato = $request->boolean('prenotato');
         // if ($request->hasFile('image')) {
         //     $img_url = Storage::putFile("cats", $request->file("image"));
         //     $newCat->image = $img_url;
