@@ -123,17 +123,18 @@ class CatController extends Controller
             try {
                 $file = $request->file('image');
 
-                $uploadedFile = Cloudinary::upload(
+                $result = Cloudinary::upload(
                     $file->getRealPath()
                 );
 
-                $newCat->image = $uploadedFile->getSecurePath();
+                dd($result); // 👈 QUI (caso successo)
+
+                $newCat->image = $result->getSecurePath();
 
             } catch (\Exception $e) {
-                dd($e->getMessage());
+                dd($e->getMessage()); // 👈 QUI (caso errore)
             }
         }
-
         $newCat->save();
 
         return response()->json([
