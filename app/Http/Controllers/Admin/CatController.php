@@ -105,6 +105,8 @@ class CatController extends Controller
     public function store(StoreCatRequest $request)
     {
 
+        dd($request->all(), $request->file('image'));
+
         $data = $request->validated();
 
         $newCat = new Cat();
@@ -127,8 +129,6 @@ class CatController extends Controller
                     $file->getRealPath(),
                     ['folder' => 'cats']
                 );
-
-                dd($uploadedFile);
 
                 // SALVA SOLO URL (NON OGGETTO)
                 $newCat->image = $uploadedFile->getSecurePath();
