@@ -128,6 +128,8 @@ class CatController extends Controller
                     ['folder' => 'cats']
                 );
 
+                dd($uploadedFile);
+
                 // SALVA SOLO URL (NON OGGETTO)
                 $newCat->image = $uploadedFile->getSecurePath();
 
