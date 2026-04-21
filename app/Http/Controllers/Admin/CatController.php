@@ -87,7 +87,9 @@ class CatController extends Controller
         }
         $newCat->save();
 
-        return redirect()->route("cats.show", $newCat);
+        // return redirect()->route("cats.show", $newCat);
+
+        return response()->json($request->all());
     }
 
     /**
