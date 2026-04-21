@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCatRequest;
 use App\Models\Cat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class CatController extends Controller
 {
@@ -62,9 +63,22 @@ class CatController extends Controller
         $newCat->info = $data['info'];
         $newCat->adottato = (bool) $data['adottato'];
         $newCat->prenotato = (bool) $data['prenotato'];
+        // if ($request->hasFile('image')) {
+        //     $img_url = Storage::putFile("cats", $request->file("image"));
+        //     $newCat->image = $img_url;
+        // }
         if ($request->hasFile('image')) {
-            $img_url = Storage::putFile("cats", $request->file("image"));
-            $newCat->image = $img_url;
+
+            $uploadedFile = Cloudinary::upload(
+                $request->file('image')->getRealPath(),
+                [
+                    'folder' => 'cats'
+                ]
+            );
+
+            $imageUrl = $uploadedFile->getSecurePath();
+
+            $newCat->image = $imageUrl;
         }
         $newCat->save();
 
@@ -102,11 +116,31 @@ class CatController extends Controller
         $cat->info = $data['info'];
         $cat->prenotato = (bool) $request->prenotato;
         $cat->adottato = (bool) $request->adottato;
+        // if ($request->hasFile('image')) {
+        //     Storage::delete($cat->image);
+        //     $img_url = Storage::putFile("cats", $data["image"]);
+        //     $cat->image = $img_url;
+        // }
         if ($request->hasFile('image')) {
-            Storage::delete($cat->image);
-            $img_url = Storage::putFile("cats", $data["image"]);
-            $cat->image = $img_url;
+
+            // cancello vecchia immagine Cloudinary
+            if ($cat->image) {
+                $publicId = pathinfo($cat->image, PATHINFO_FILENAME);
+                Cloudinary::destroy('cats/' . $publicId);
+            }
+
+            $uploadedFile = Cloudinary::upload(
+                $request->file('image')->getRealPath(),
+                [
+                    'folder' => 'cats'
+                ]
+            );
+
+            $imageUrl = $uploadedFile->getSecurePath();
+
+            $cat->image = $imageUrl;
         }
+
         $cat->update();
 
         return redirect()->route("cats.show", $cat);
