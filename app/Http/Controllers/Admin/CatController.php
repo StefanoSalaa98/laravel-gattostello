@@ -53,51 +53,57 @@ class CatController extends Controller
      */
     public function store(StoreCatRequest $request)
     {
-        $data = $request->validated();
+        // $data = $request->validated();
 
-        $newCat = new Cat();
-        $newCat->name = $data['name'];
-        $newCat->sex = $data['sex'];
-        $newCat->date_of_birth = $data['date_of_birth'];
-        $newCat->coat = $data['coat'];
-        $newCat->info = $data['info'];
-        // $newCat->adottato = (bool) $data['adottato'];
-        // $newCat->prenotato = (bool) $data['prenotato'];
-        $newCat->adottato = $request->boolean('adottato');
-        $newCat->prenotato = $request->boolean('prenotato');
+        // $newCat = new Cat();
+        // $newCat->name = $data['name'];
+        // $newCat->sex = $data['sex'];
+        // $newCat->date_of_birth = $data['date_of_birth'];
+        // $newCat->coat = $data['coat'];
+        // $newCat->info = $data['info'];
+        // // $newCat->adottato = (bool) $data['adottato'];
+        // // $newCat->prenotato = (bool) $data['prenotato'];
+        // $newCat->adottato = $request->boolean('adottato');
+        // $newCat->prenotato = $request->boolean('prenotato');
+        // // if ($request->hasFile('image')) {
+        // //     $img_url = Storage::putFile("cats", $request->file("image"));
+        // //     $newCat->image = $img_url;
+        // // }
         // if ($request->hasFile('image')) {
-        //     $img_url = Storage::putFile("cats", $request->file("image"));
-        //     $newCat->image = $img_url;
+
+        //     try {
+        //         $file = $request->file('image');
+
+        //         if (!$file) {
+        //             return response()->json(['error' => 'No file uploaded'], 400);
+        //         }
+
+        //         $uploadedFile = Cloudinary::upload(
+        //             $file->getRealPath(),
+        //             ['folder' => 'cats']
+        //         );
+
+        //         $newCat->image = $uploadedFile->getSecurePath();
+
+        //     } catch (\Exception $e) {
+        //         return response()->json([
+        //             'error' => $e->getMessage()
+        //         ], 500);
+        //     }
         // }
-        if ($request->hasFile('image')) {
+        // $newCat->save();
 
-            try {
-                $file = $request->file('image');
+        // // return redirect()->route("cats.show", $newCat);
 
-                if (!$file) {
-                    return response()->json(['error' => 'No file uploaded'], 400);
-                }
-
-                $uploadedFile = Cloudinary::upload(
-                    $file->getRealPath(),
-                    ['folder' => 'cats']
-                );
-
-                $newCat->image = $uploadedFile->getSecurePath();
-
-            } catch (\Exception $e) {
-                return response()->json([
-                    'error' => $e->getMessage()
-                ], 500);
-            }
-        }
-        $newCat->save();
-
-        // return redirect()->route("cats.show", $newCat);
+        // return response()->json([
+        //     'all' => $request->all(),
+        //     'file' => $request->file('image')
+        // ]);
 
         return response()->json([
             'all' => $request->all(),
-            'file' => $request->file('image')
+            'validated' => $request->validated(),
+            'file' => $request->file('image'),
         ]);
     }
 
