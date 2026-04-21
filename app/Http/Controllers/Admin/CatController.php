@@ -99,6 +99,7 @@ class CatController extends Controller
         //     'all' => $request->all(),
         //     'file' => $request->file('image')
         // ]);
+        dd(env('CLOUDINARY_URL'));
 
         return response()->json([
             'all' => $request->all(),
