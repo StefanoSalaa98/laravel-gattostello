@@ -51,6 +51,57 @@ class CatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(StoreCatRequest $request)
+    // {
+    //     $data = $request->validated();
+
+    //     $newCat = new Cat();
+    //     $newCat->name = $data['name'];
+    //     $newCat->sex = $data['sex'];
+    //     $newCat->date_of_birth = $data['date_of_birth'];
+    //     $newCat->coat = $data['coat'];
+    //     $newCat->info = $data['info'];
+    //     // $newCat->adottato = (bool) $data['adottato'];
+    //     // $newCat->prenotato = (bool) $data['prenotato'];
+    //     $newCat->adottato = $request->boolean('adottato');
+    //     $newCat->prenotato = $request->boolean('prenotato');
+    //     // if ($request->hasFile('image')) {
+    //     //     $img_url = Storage::putFile("cats", $request->file("image"));
+    //     //     $newCat->image = $img_url;
+    //     // }
+    //     if ($request->hasFile('image')) {
+
+    //         try {
+    //             $file = $request->file('image');
+
+    //             if (!$file) {
+    //                 return response()->json(['error' => 'No file uploaded'], 400);
+    //             }
+
+    //             $cloudinary = new Cloudinary();
+
+    //             $uploadedFile = $cloudinary->uploadApi()->upload(
+    //                 $file->getRealPath(),
+    //                 [
+    //                     'folder' => 'cats'
+    //                 ]
+    //             );
+
+    //             $newCat->image = $uploadedFile->getSecurePath();
+
+    //         } catch (\Exception $e) {
+    //             return response()->json([
+    //                 'error' => $e->getMessage()
+    //             ], 500);
+    //         }
+    //     }
+    //     $newCat->save();
+
+    //     return redirect()->route("cats.show", $newCat);
+
+
+    // }
+
     public function store(StoreCatRequest $request)
     {
         $data = $request->validated();
@@ -58,36 +109,26 @@ class CatController extends Controller
         $newCat = new Cat();
         $newCat->name = $data['name'];
         $newCat->sex = $data['sex'];
-        $newCat->date_of_birth = $data['date_of_birth'];
-        $newCat->coat = $data['coat'];
-        $newCat->info = $data['info'];
-        // $newCat->adottato = (bool) $data['adottato'];
-        // $newCat->prenotato = (bool) $data['prenotato'];
+        $newCat->date_of_birth = $data['date_of_birth'] ?? null;
+        $newCat->coat = $data['coat'] ?? null;
+        $newCat->info = $data['info'] ?? null;
+
+        // checkbox sicuri
         $newCat->adottato = $request->boolean('adottato');
         $newCat->prenotato = $request->boolean('prenotato');
-        // if ($request->hasFile('image')) {
-        //     $img_url = Storage::putFile("cats", $request->file("image"));
-        //     $newCat->image = $img_url;
-        // }
-        if ($request->hasFile('image')) {
 
+        // immagine Cloudinary
+        if ($request->hasFile('image')) {
             try {
                 $file = $request->file('image');
 
-                if (!$file) {
-                    return response()->json(['error' => 'No file uploaded'], 400);
-                }
-
-                $cloudinary = new Cloudinary();
-
-                $uploadedFile = $cloudinary->uploadApi()->upload(
+                $uploadedFile = Cloudinary::upload(
                     $file->getRealPath(),
-                    [
-                        'folder' => 'cats'
-                    ]
+                    ['folder' => 'cats']
                 );
 
-                $newCat->image = $uploadedFile;
+                // SALVA SOLO URL (NON OGGETTO)
+                $newCat->image = $uploadedFile->getSecurePath();
 
             } catch (\Exception $e) {
                 return response()->json([
@@ -95,11 +136,13 @@ class CatController extends Controller
                 ], 500);
             }
         }
+
         $newCat->save();
 
-        return redirect()->route("cats.show", $newCat);
-
-
+        return response()->json([
+            'success' => true,
+            'cat' => $newCat
+        ]);
     }
 
     /**
