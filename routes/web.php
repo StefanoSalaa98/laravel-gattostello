@@ -24,4 +24,12 @@ Route::resource('cats', CatController::class)
     ->middleware(['auth', 'verified']);
 ;
 
+// rotta temporanea cloudinary
+Route::get('/debug-cloudinary', function () {
+    return [
+        'env' => env('CLOUDINARY_URL'),
+        'config' => config('cloudinary.cloud_url'),
+    ];
+});
+
 require __DIR__ . '/auth.php';
