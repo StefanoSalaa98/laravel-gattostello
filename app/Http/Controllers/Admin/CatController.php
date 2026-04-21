@@ -105,9 +105,9 @@ class CatController extends Controller
     public function store(StoreCatRequest $request)
     {
 
-        dd($request->all(), $request->file('image'));
-
         $data = $request->validated();
+
+        dd($data->all(), $data->file('image'));
 
         $newCat = new Cat();
         $newCat->name = $data['name'];
@@ -126,17 +126,13 @@ class CatController extends Controller
                 $file = $request->file('image');
 
                 $uploadedFile = Cloudinary::upload(
-                    $file->getRealPath(),
-                    ['folder' => 'cats']
+                    $file->getRealPath()
                 );
 
-                // SALVA SOLO URL (NON OGGETTO)
                 $newCat->image = $uploadedFile->getSecurePath();
 
             } catch (\Exception $e) {
-                return response()->json([
-                    'error' => $e->getMessage()
-                ], 500);
+                dd($e->getMessage());
             }
         }
 
