@@ -41,7 +41,8 @@
     <div class="gatto">
 
         <div class="immagine">
-            <img src="{{ asset("storage/" . $cat->image) }}" alt="immagine_gatto">
+            <!-- <img src="{{ asset("storage/" . $cat->image) }}" alt="immagine_gatto"> -->
+            <img src="{{ $cat->image }}" alt="immagine_gatto">
         </div>
 
         <div>
