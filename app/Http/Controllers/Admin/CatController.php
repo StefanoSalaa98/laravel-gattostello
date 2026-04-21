@@ -51,106 +51,55 @@ class CatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    // public function store(StoreCatRequest $request)
-    // {
-    // $data = $request->validated();
-
-    // $newCat = new Cat();
-    // $newCat->name = $data['name'];
-    // $newCat->sex = $data['sex'];
-    // $newCat->date_of_birth = $data['date_of_birth'];
-    // $newCat->coat = $data['coat'];
-    // $newCat->info = $data['info'];
-    // // $newCat->adottato = (bool) $data['adottato'];
-    // // $newCat->prenotato = (bool) $data['prenotato'];
-    // $newCat->adottato = $request->boolean('adottato');
-    // $newCat->prenotato = $request->boolean('prenotato');
-    // // if ($request->hasFile('image')) {
-    // //     $img_url = Storage::putFile("cats", $request->file("image"));
-    // //     $newCat->image = $img_url;
-    // // }
-    // if ($request->hasFile('image')) {
-
-    //     try {
-    //         $file = $request->file('image');
-
-    //         if (!$file) {
-    //             return response()->json(['error' => 'No file uploaded'], 400);
-    //         }
-
-    //         $uploadedFile = Cloudinary::upload(
-    //             $file->getRealPath(),
-    //             ['folder' => 'cats']
-    //         );
-
-    //         $newCat->image = $uploadedFile->getSecurePath();
-
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-    // $newCat->save();
-
-    // // return redirect()->route("cats.show", $newCat);
-
-    // return response()->json([
-    //     'all' => $request->all(),
-    //     'file' => $request->file('image')
-    // ]);
-    // }
-
     public function store(StoreCatRequest $request)
     {
-        try {
-            $data = $request->validated();
+        $data = $request->validated();
 
-            $file = $request->file('image');
+        $newCat = new Cat();
+        $newCat->name = $data['name'];
+        $newCat->sex = $data['sex'];
+        $newCat->date_of_birth = $data['date_of_birth'];
+        $newCat->coat = $data['coat'];
+        $newCat->info = $data['info'];
+        // $newCat->adottato = (bool) $data['adottato'];
+        // $newCat->prenotato = (bool) $data['prenotato'];
+        $newCat->adottato = $request->boolean('adottato');
+        $newCat->prenotato = $request->boolean('prenotato');
+        // if ($request->hasFile('image')) {
+        //     $img_url = Storage::putFile("cats", $request->file("image"));
+        //     $newCat->image = $img_url;
+        // }
+        if ($request->hasFile('image')) {
 
-            if (!$file) {
+            try {
+                $file = $request->file('image');
+
+                if (!$file) {
+                    return response()->json(['error' => 'No file uploaded'], 400);
+                }
+
+                $cloudinary = new Cloudinary();
+
+                $uploadedFile = $cloudinary->uploadApi()->upload(
+                    $file->getRealPath(),
+                    [
+                        'folder' => 'cats'
+                    ]
+                );
+
+                $newCat->image = $uploadedFile;
+
+            } catch (\Exception $e) {
                 return response()->json([
-                    'error' => 'IMAGE NOT RECEIVED',
-                    'request_all' => $request->all(),
-                    'validated' => $data,
-                ], 422);
+                    'error' => $e->getMessage()
+                ], 500);
             }
-
-            // 🔍 DEBUG CLOUDINARY
-            $uploadedFile = Cloudinary::upload(
-                $file->getRealPath(),
-                ['folder' => 'cats']
-            );
-
-            $imageUrl = $uploadedFile->getSecurePath();
-
-            $newCat = new Cat();
-
-            $newCat->name = $data['name'] ?? null;
-            $newCat->sex = $data['sex'] ?? null;
-            $newCat->date_of_birth = $data['date_of_birth'] ?? null;
-            $newCat->coat = $data['coat'] ?? null;
-            $newCat->info = $data['info'] ?? null;
-
-            $newCat->adottato = $request->boolean('adottato');
-            $newCat->prenotato = $request->boolean('prenotato');
-
-            $newCat->image = $imageUrl;
-
-            $newCat->save();
-
-            return response()->json([
-                'success' => true,
-                'cat' => $newCat
-            ]);
-
-        } catch (\Throwable $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => $e->getFile()
-            ], 500);
         }
+        $newCat->save();
+
+        return redirect()->route("cats.show", $newCat);
+
+
     }
 
     /**
