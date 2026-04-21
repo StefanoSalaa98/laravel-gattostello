@@ -107,7 +107,7 @@ class CatController extends Controller
 
         $data = $request->validated();
 
-        dd($data->all(), $data->file('image'));
+        dd($data);
 
         $newCat = new Cat();
         $newCat->name = $data['name'];
