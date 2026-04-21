@@ -162,52 +162,100 @@ class CatController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    // public function update(UpdateCatRequest $request, Cat $cat)
+    // {
+
+    //     $data = $request->validated();
+
+    //     $cat->name = $data['name'];
+    //     $cat->sex = $data['sex'];
+    //     $cat->date_of_birth = $data['date_of_birth'];
+    //     $cat->coat = $data['coat'];
+    //     $cat->info = $data['info'];
+    //     $cat->prenotato = (bool) $request->prenotato;
+    //     $cat->adottato = (bool) $request->adottato;
+    //     // if ($request->hasFile('image')) {
+    //     //     Storage::delete($cat->image);
+    //     //     $img_url = Storage::putFile("cats", $data["image"]);
+    //     //     $cat->image = $img_url;
+    //     // }
+    //     if ($request->hasFile('image')) {
+
+    //         // cancello vecchia immagine Cloudinary
+    //         if ($cat->image) {
+    //             $publicId = pathinfo($cat->image, PATHINFO_FILENAME);
+    //             Cloudinary::destroy('cats/' . $publicId);
+    //         }
+
+    //         $uploadedFile = Cloudinary::upload(
+    //             $request->file('image')->getRealPath(),
+    //             [
+    //                 'folder' => 'cats',
+    //                 // img + leggere x risparmio crediti
+    //                 'transformation' => [
+    //                     'width' => 500,
+    //                     'crop' => 'scale'
+    //                 ]
+    //             ]
+    //         );
+
+    //         $imageUrl = $uploadedFile->getSecurePath();
+
+    //         $cat->image = $imageUrl;
+    //     }
+
+    //     $cat->update();
+
+    //     return redirect()->route("cats.show", $cat);
+    // }
+
     public function update(UpdateCatRequest $request, Cat $cat)
     {
-
         $data = $request->validated();
 
         $cat->name = $data['name'];
         $cat->sex = $data['sex'];
-        $cat->date_of_birth = $data['date_of_birth'];
-        $cat->coat = $data['coat'];
-        $cat->info = $data['info'];
-        $cat->prenotato = (bool) $request->prenotato;
-        $cat->adottato = (bool) $request->adottato;
-        // if ($request->hasFile('image')) {
-        //     Storage::delete($cat->image);
-        //     $img_url = Storage::putFile("cats", $data["image"]);
-        //     $cat->image = $img_url;
-        // }
+        $cat->date_of_birth = $data['date_of_birth'] ?? null;
+        $cat->coat = $data['coat'] ?? null;
+        $cat->info = $data['info'] ?? null;
+
+        $cat->prenotato = $request->boolean('prenotato');
+        $cat->adottato = $request->boolean('adottato');
+
         if ($request->hasFile('image')) {
 
-            // cancello vecchia immagine Cloudinary
-            if ($cat->image) {
-                $publicId = pathinfo($cat->image, PATHINFO_FILENAME);
-                Cloudinary::destroy('cats/' . $publicId);
-            }
-
-            $uploadedFile = Cloudinary::upload(
-                $request->file('image')->getRealPath(),
-                [
-                    'folder' => 'cats',
-                    // img + leggere x risparmio crediti
-                    'transformation' => [
-                        'width' => 500,
-                        'crop' => 'scale'
+            try {
+                $cloudinary = new Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                        'api_key' => env('CLOUDINARY_KEY'),
+                        'api_secret' => env('CLOUDINARY_SECRET'),
                     ]
-                ]
-            );
+                ]);
 
-            $imageUrl = $uploadedFile->getSecurePath();
+                $uploadedFile = $cloudinary->uploadApi()->upload(
+                    $request->file('image')->getRealPath(),
+                    [
+                        'folder' => 'cats',
+                        'transformation' => [
+                            'width' => 500,
+                            'crop' => 'scale'
+                        ]
+                    ]
+                );
 
-            $cat->image = $imageUrl;
+                $cat->image = $uploadedFile['secure_url'];
+
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+            }
         }
 
-        $cat->update();
+        $cat->save();
 
-        return redirect()->route("cats.show", $cat);
+        return redirect()->route('cats.show', $cat);
     }
+
 
     /**
      * Remove the specified resource from storage.
