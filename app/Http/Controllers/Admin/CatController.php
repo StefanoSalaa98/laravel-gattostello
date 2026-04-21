@@ -8,7 +8,7 @@ use App\Http\Requests\UpdateCatRequest;
 use App\Models\Cat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Cloudinary;
 
 class CatController extends Controller
 {
@@ -104,7 +104,6 @@ class CatController extends Controller
 
     public function store(StoreCatRequest $request)
     {
-
         $data = $request->validated();
 
         $newCat = new Cat();
@@ -114,33 +113,34 @@ class CatController extends Controller
         $newCat->coat = $data['coat'] ?? null;
         $newCat->info = $data['info'] ?? null;
 
-        // checkbox sicuri
         $newCat->adottato = $request->boolean('adottato');
         $newCat->prenotato = $request->boolean('prenotato');
 
-        // immagine Cloudinary
         if ($request->hasFile('image')) {
             try {
-                $file = $request->file('image');
+                $cloudinary = new Cloudinary([
+                    'cloud' => [
+                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                        'api_key' => env('CLOUDINARY_KEY'),
+                        'api_secret' => env('CLOUDINARY_SECRET'),
+                    ]
+                ]);
 
-                $result = Cloudinary::upload(
-                    $file->getRealPath()
+                $uploadedFile = $cloudinary->uploadApi()->upload(
+                    $request->file('image')->getRealPath(),
+                    ['folder' => 'cats']
                 );
 
-                dd($result); // 👈 QUI (caso successo)
-
-                $newCat->image = $result->getSecurePath();
+                $newCat->image = $uploadedFile['secure_url'];
 
             } catch (\Exception $e) {
-                dd($e->getMessage()); // 👈 QUI (caso errore)
+                dd($e->getMessage());
             }
         }
+
         $newCat->save();
 
-        return response()->json([
-            'success' => true,
-            'cat' => $newCat
-        ]);
+        return redirect()->route("cats.show", $newCat);
     }
 
     /**
