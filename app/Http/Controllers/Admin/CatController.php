@@ -107,8 +107,6 @@ class CatController extends Controller
 
         $data = $request->validated();
 
-        dd($data);
-
         $newCat = new Cat();
         $newCat->name = $data['name'];
         $newCat->sex = $data['sex'];
