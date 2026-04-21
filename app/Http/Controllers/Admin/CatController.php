@@ -72,7 +72,12 @@ class CatController extends Controller
             $uploadedFile = Cloudinary::upload(
                 $request->file('image')->getRealPath(),
                 [
-                    'folder' => 'cats'
+                    'folder' => 'cats',
+                    // img + leggere x risparmio crediti
+                    'transformation' => [
+                        'width' => 500,
+                        'crop' => 'scale'
+                    ]
                 ]
             );
 
@@ -132,7 +137,12 @@ class CatController extends Controller
             $uploadedFile = Cloudinary::upload(
                 $request->file('image')->getRealPath(),
                 [
-                    'folder' => 'cats'
+                    'folder' => 'cats',
+                    // img + leggere x risparmio crediti
+                    'transformation' => [
+                        'width' => 500,
+                        'crop' => 'scale'
+                    ]
                 ]
             );
 
