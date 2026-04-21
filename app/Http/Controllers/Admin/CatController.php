@@ -69,27 +69,29 @@ class CatController extends Controller
         // }
         if ($request->hasFile('image')) {
 
-            $uploadedFile = Cloudinary::upload(
-                $request->file('image')->getRealPath(),
-                [
-                    'folder' => 'cats',
-                    // img + leggere x risparmio crediti
-                    'transformation' => [
-                        'width' => 500,
-                        'crop' => 'scale'
-                    ]
-                ]
-            );
+            try {
+                $file = $request->file('image');
 
-            $imageUrl = $uploadedFile->getSecurePath();
+                if (!$file) {
+                    return response()->json(['error' => 'No file uploaded'], 400);
+                }
 
-            $newCat->image = $imageUrl;
+                $uploadedFile = Cloudinary::upload(
+                    $file->getRealPath(),
+                    ['folder' => 'cats']
+                );
+
+                $newCat->image = $uploadedFile->getSecurePath();
+
+            } catch (\Exception $e) {
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
         }
         $newCat->save();
 
-        // return redirect()->route("cats.show", $newCat);
-
-        return response()->json($request->all());
+        return redirect()->route("cats.show", $newCat);
     }
 
     /**
