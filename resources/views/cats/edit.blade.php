@@ -8,6 +8,14 @@
     .indietro {
         margin-bottom: 50px;
     }
+
+    .immagine {
+        width: 350px;
+
+        img {
+            width: 100%;
+        }
+    }
 </style>
 
 @section("contenuto")
@@ -45,7 +53,7 @@
                 @enderror
             </div>
 
-            <div>
+            <div class="immagine">
                 <!-- <img class="img-fluid w-25 mb-5" src=" {{ asset("storage/" . $cat->image) }}" alt="immagine_gatto"> -->
                 <img src="{{ $cat->image }}" alt="immagine_gatto">
             </div>
