@@ -11,6 +11,7 @@
 
     .immagine {
         width: 350px;
+        margin-bottom: 50px;
 
         img {
             width: 100%;
