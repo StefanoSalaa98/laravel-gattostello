@@ -27,8 +27,8 @@ class StoreCatRequest extends FormRequest
             'date_of_birth' => 'nullable|date_format:Y-m',
             'coat' => 'nullable|string|max:100',
             'info' => 'nullable|string',
-            // 'image' => 'required|image|max:2048',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'required|image|max:2048',
+            // 'image' => 'nullable|image|max:2048',
             'adottato' => 'nullable|boolean',
             'prenotato' => 'nullable|boolean',
         ];

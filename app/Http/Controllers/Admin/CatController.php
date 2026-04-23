@@ -113,22 +113,30 @@ class CatController extends Controller
         $newCat->coat = $data['coat'] ?? null;
         $newCat->info = $data['info'] ?? null;
 
+        // $newCat->adottato = (bool) $data['adottato'];
+        // $newCat->prenotato = (bool) $data['prenotato'];
         $newCat->adottato = $request->boolean('adottato');
         $newCat->prenotato = $request->boolean('prenotato');
 
+        // se è stata inserita una immagine
         if ($request->hasFile('image')) {
             try {
+                // creo un oggetto Cloudinary per collegarmi al servizio
                 $cloudinary = new Cloudinary([
-                    'cloud' => [
-                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                        'api_key' => env('CLOUDINARY_KEY'),
-                        'api_secret' => env('CLOUDINARY_SECRET'),
-                    ]
+                    // 'cloud' => [
+                    //     'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    //     'api_key' => env('CLOUDINARY_KEY'),
+                    //     'api_secret' => env('CLOUDINARY_SECRET'),
+                    // ]
+                    getenv('CLOUDINARY_URL')
                 ]);
 
+                // chiamo l'API upload di Cloudinary
                 $uploadedFile = $cloudinary->uploadApi()->upload(
+                    // prendo il percorso temporaneo del file caricato
                     $request->file('image')->getRealPath(),
                     ['folder' => 'cats']
+                    // dico a Cloudinary di salvare l'immagine nella cartella cats
                 );
 
                 $newCat->image = $uploadedFile['secure_url'];
@@ -226,11 +234,12 @@ class CatController extends Controller
 
             try {
                 $cloudinary = new Cloudinary([
-                    'cloud' => [
-                        'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                        'api_key' => env('CLOUDINARY_KEY'),
-                        'api_secret' => env('CLOUDINARY_SECRET'),
-                    ]
+                    // 'cloud' => [
+                    //     'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    //     'api_key' => env('CLOUDINARY_KEY'),
+                    //     'api_secret' => env('CLOUDINARY_SECRET'),
+                    // ]
+                    getenv('CLOUDINARY_URL')
                 ]);
 
                 $uploadedFile = $cloudinary->uploadApi()->upload(
