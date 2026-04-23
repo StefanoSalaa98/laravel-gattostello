@@ -128,7 +128,7 @@ class CatController extends Controller
                     //     'api_key' => env('CLOUDINARY_KEY'),
                     //     'api_secret' => env('CLOUDINARY_SECRET'),
                     // ]
-                    env('CLOUDINARY_URL')
+                    config('cloudinary.cloud_url')
                 ]);
 
                 // chiamo l'API upload di Cloudinary
@@ -239,7 +239,7 @@ class CatController extends Controller
                     //     'api_key' => env('CLOUDINARY_KEY'),
                     //     'api_secret' => env('CLOUDINARY_SECRET'),
                     // ]
-                    env('CLOUDINARY_URL')
+                    config('cloudinary.cloud_url')
                 ]);
 
                 $uploadedFile = $cloudinary->uploadApi()->upload(
