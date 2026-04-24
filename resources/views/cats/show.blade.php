@@ -15,6 +15,9 @@
 
     .immagine {
         width: 350px;
+        height: 500px;
+        min-width: 350px;
+        min-height: 500px;
 
         img {
             width: 100%;
