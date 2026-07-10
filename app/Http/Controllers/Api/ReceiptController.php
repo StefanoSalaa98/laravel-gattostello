@@ -50,7 +50,16 @@ class ReceiptController extends Controller
         try {
 
             $validated = $request->validate([
-                // la tua validazione
+                'cognome' => 'required|string|max:255',
+                'nome' => 'required|string|max:255',
+                'email' => 'required|email|max:255',
+                'cf' => 'required|string|size:16|regex:/^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i',
+                'via' => 'required|string|max:255',
+                'civico' => 'required|string|max:10',
+                'citta' => 'required|string|max:255',
+                'cap' => 'required|string|size:5|regex:/^[0-9]{5}$/',
+                'importo' => 'nullable|numeric|min:0',
+                'messaggio' => 'nullable|string|max:1000'
             ]);
 
             $receiptRequest = ReceiptRequest::create($validated);
@@ -66,6 +75,8 @@ class ReceiptController extends Controller
 
             return response()->json([
                 'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ], 500);
         }
     }
