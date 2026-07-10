@@ -30,7 +30,8 @@ class ReceiptController extends Controller
         $receiptRequest = ReceiptRequest::create($validated);
 
         // Invia la mail all'indirizzo dell'associazione
-        Mail::to('infobellissime@gattostello.it')->send(new ReceiptRequested($receiptRequest));
+        // Mail::to('infobellissime@gattostello.it')->send(new ReceiptRequested($receiptRequest));ù
+        $receiptRequest = ReceiptRequest::create($validated);
 
         // Rispondi a React con successo
         return response()->json([
