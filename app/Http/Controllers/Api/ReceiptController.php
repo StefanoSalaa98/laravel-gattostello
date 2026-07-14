@@ -32,13 +32,29 @@ class ReceiptController extends Controller
 
         // Invia la mail all'indirizzo dell'associazione
         // Mail::to('infobellissime@gattostello.it')->send(new ReceiptRequested($receiptRequest));
-        Mail::to(env('MAIL_TO_ADDRESS'))
-            ->send(new ReceiptRequested($receiptRequest));
+        // Mail::to(env('MAIL_TO_ADDRESS'))
+        //     ->send(new ReceiptRequested($receiptRequest));
 
-        // Rispondi a React con successo
-        return response()->json([
-            'message' => 'Richiesta salvata e mail inviata con successo!'
-        ], 201);
+        // // Rispondi a React con successo
+        // return response()->json([
+        //     'message' => 'Richiesta salvata e mail inviata con successo!'
+        // ], 201);
+
+        try {
+            Mail::to(env('MAIL_TO_ADDRESS'))
+                ->send(new ReceiptRequested($receiptRequest));
+
+            return response()->json([
+                'message' => 'OK'
+            ]);
+        } catch (\Throwable $e) {
+
+            \Log::error($e);
+
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
 
