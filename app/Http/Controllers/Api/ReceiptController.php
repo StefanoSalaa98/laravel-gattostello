@@ -32,8 +32,19 @@ class ReceiptController extends Controller
 
         // Invia la mail all'indirizzo dell'associazione
         // Mail::to('infobellissime@gattostello.it')->send(new ReceiptRequested($receiptRequest));
-        Mail::to(config('mail.to.address'))
-            ->send(new ReceiptRequested($receiptRequest));
+        // Mail::to(config('mail.to.address'))
+        //     ->send(new ReceiptRequested($receiptRequest));
+
+        try {
+            Mail::to(config('mail.to.address'))
+                ->send(new ReceiptRequested($receiptRequest));
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
 
         // Rispondi a React con successo
         return response()->json([
