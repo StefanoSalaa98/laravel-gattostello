@@ -41,8 +41,8 @@ class ReceiptController extends Controller
         // ], 201);
 
         try {
-            Mail::to(env('MAIL_TO_ADDRESS'))
-                ->send(new ReceiptRequested($receiptRequest));
+            // Mail::to(env('MAIL_TO_ADDRESS'))
+            //     ->send(new ReceiptRequested($receiptRequest));
 
             return response()->json([
                 'message' => 'OK'
