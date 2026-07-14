@@ -29,6 +29,8 @@ class ReceiptController extends Controller
         // Salva nel Database usando il Modello Eloquent
         $receiptRequest = ReceiptRequest::create($validated);
 
+        dd(config('mail.to.address'));
+
         // Invia la mail all'indirizzo dell'associazione
         // Mail::to('infobellissime@gattostello.it')->send(new ReceiptRequested($receiptRequest));
         Mail::to(config('mail.to.address'))
