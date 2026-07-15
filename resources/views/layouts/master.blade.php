@@ -25,6 +25,18 @@
             margin-top: 0;
         }
     }
+
+    @media (max-width: 768px) {
+        .card {
+            width: calc((100% - 20px) / 2);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .card {
+            width: 100%;
+        }
+    }
 </style>
 
 <body>
