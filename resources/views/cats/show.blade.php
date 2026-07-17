@@ -29,6 +29,12 @@
         margin: 0 auto;
         margin-top: 50px;
     }
+
+    @media (max-width: 768px) {
+        .gatto {
+            display: block;
+        }
+    }
 </style>
 
 @section("contenuto")
@@ -48,7 +54,7 @@
             <img src="{{ $cat->image }}" alt="immagine_gatto">
         </div>
 
-        <div>
+        <div class="info">
             <p><strong>Nome: </strong>{{ $cat->name }}</p>
             <p><strong>Slug: </strong>{{ $cat->slug }}</p>
             <p><strong>Sesso: </strong>{{ $cat->sex }}</p>
