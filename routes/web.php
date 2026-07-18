@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\CatController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SitemapController;
+
+Route::get('/sitemap.xml', [SitemapController::class, 'index']);
 
 Route::get('/', function () {
     return view('welcome');
