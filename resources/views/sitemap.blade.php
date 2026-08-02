@@ -39,10 +39,6 @@
         <url>
             <loc>https://gattostello.it/adotta/{{ $cat->slug }}</loc>
 
-            @if($cat->updated_at)
-                <lastmod>{{ $cat->updated_at->toDateString() }}</lastmod>
-            @endif
-
             <changefreq>weekly</changefreq>
             <priority>0.9</priority>
         </url>
