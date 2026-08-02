@@ -17,7 +17,7 @@ class SitemapController extends Controller
 
     public function index()
     {
-        return response('OK');
+        return view('welcome');
     }
 
 
