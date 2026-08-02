@@ -10,6 +10,8 @@ class SitemapController extends Controller
     {
         $cats = Cat::all();
 
+        dd($cats);
+
         return response()
             ->view('sitemap', compact('cats'))
             ->header('Content-Type', 'application/xml');
