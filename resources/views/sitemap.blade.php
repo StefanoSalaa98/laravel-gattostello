@@ -8,8 +8,21 @@ class SitemapController extends Controller
 {
     public function index()
     {
-        $cats = Cat::all();
+        try {
+            $cats = Cat::all();
 
-        return response()->json($cats);
+            return response()->json([
+                "success" => true,
+                "count" => $cats->count(),
+                "cats" => $cats
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                "error" => $e->getMessage()
+            ], 500);
+
+        }
     }
 }
