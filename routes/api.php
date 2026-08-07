@@ -20,10 +20,4 @@ Route::post('/richiesta-ricevuta', [ReceiptController::class, 'store']);
 
 Route::post('/richiesta-volontario', [VolunteerRequestController::class, 'store']);
 
-Route::get('/test-route', function () {
-    return response()->json([
-        'ok' => true
-    ]);
-});
-
 
