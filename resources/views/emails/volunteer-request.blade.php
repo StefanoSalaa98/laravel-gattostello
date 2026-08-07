@@ -153,5 +153,5 @@
     Questa email è stata generata automaticamente dal sito del Gattostello.
 </p>
 
-</body>ù
+</body>
 </html>
