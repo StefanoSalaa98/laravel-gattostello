@@ -13,7 +13,7 @@ class CatController extends Controller
     {
         $page = (int) ($request->page ?? 1);
 
-        $limit = 12;
+        $limit = 16;
         $offset = ($page - 1) * $limit;
 
         // preparazione query in base ai criteri passati dal frontend
