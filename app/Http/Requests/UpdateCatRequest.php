@@ -29,7 +29,7 @@ class UpdateCatRequest extends FormRequest
             'date_of_birth' => 'nullable|date_format:Y-m',
             'coat' => 'nullable|string|max:100',
             'info' => 'nullable|string',
-            'image' => 'nullable|image|max:2048', // l'immagine non è obbligatoria nella update 
+            'image' => 'nullable|image|max:5120', // l'immagine non è obbligatoria nella update 
             'adottato' => 'nullable|boolean',
             'prenotato' => 'nullable|boolean',
         ];
