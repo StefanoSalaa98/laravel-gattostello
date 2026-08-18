@@ -23,7 +23,7 @@ class StoreCatRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'sex' => 'required|in:M,F',
+            'sex' => 'required|in:M,F,MF',
             'date_of_birth' => 'nullable|date_format:Y-m',
             'coat' => 'nullable|string|max:100',
             'info' => 'nullable|string',
@@ -39,7 +39,7 @@ class StoreCatRequest extends FormRequest
     {
         return [
             'name.required' => 'Il nome è obbligatorio',
-            'sex.in' => 'Il sesso deve essere M o F',
+            'sex.in' => 'Il sesso deve essere M o F o MF',
             'image.image' => 'Il file deve essere una immagine',
             'date_of_birth.date_format' => 'La data di nascita deve essere nel formato YYYY-MM',
             'image.required' => 'Devi selezionare una immagine del gatto',
