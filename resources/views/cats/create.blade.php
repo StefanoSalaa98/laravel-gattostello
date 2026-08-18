@@ -49,6 +49,7 @@
                 <select name="sex" id="sex">
                     <option value="M" {{ old('sex') == 'M' ? 'selected' : '' }}>Maschio</option>
                     <option value="F" {{ old('sex') == 'F' ? 'selected' : '' }}>Femmina</option>
+                    <option value="MF" {{ old('sex') == 'MF' ? 'selected' : '' }}>Maschio e Femmina</option>
                 </select>
                 @error('sex')
                     <div style="color:red;">{{ $message }}</div>
